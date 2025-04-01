@@ -1,0 +1,31 @@
+<?php
+
+class Logout {
+    public function __construct() {
+        // Constructor leeg laten
+    }
+
+    public function logUit() {
+        // Start de sessie als deze nog niet actief is
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        // Verwijder alle sessie variabelen
+        $_SESSION = array();
+
+        // Vernietig de sessie cookie
+        if (isset($_COOKIE[session_name()])) {
+            setcookie(session_name(), '', time()-3600, '/');
+        }
+
+        // Vernietig de sessie
+        session_destroy();
+
+        // Stuur gebruiker terug naa/r login pagina
+        header("Location: ../public/index.php");
+        exit();
+    }
+}
+
+?>
